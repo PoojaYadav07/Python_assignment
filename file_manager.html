@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S3 File Manager</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">S3 File Manager - {{ bucket_name }}</h1>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Upload File</h2>
+                <form action="/upload_file" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="file">Choose File:</label>
+                        <input type="file" class="form-control-file" id="file" name="file" required>
+                    </div>
+                    <input type="hidden" name="bucket_name" value="{{ bucket_name }}">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Create Folder</h2>
+                <form action="/create_folder" method="POST">
+                    <div class="form-group">
+                        <label for="folder_name">Folder Name:</label>
+                        <input type="text" class="form-control" id="folder_name" name="folder_name" required>
+                    </div>
+                    <input type="hidden" name="bucket_name" value="{{ bucket_name }}">
+                    <button type="submit" class="btn btn-success">Create</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Delete Folder</h2>
+                <form action="/delete_folder" method="POST">
+                    <div class="form-group">
+                        <label for="folder_name_delete">Folder Name:</label>
+                        <input type="text" class="form-control" id="folder_name_delete" name="folder_name" required>
+                    </div>
+                    <input type="hidden" name="bucket_name" value="{{ bucket_name }}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Files/Folders in {{ bucket_name }}</h2>
+                <ul class="list-group">
+                    {% for file in files %}
+                    <li class="list-group-item">{{ file }}
+                        <form action="/copy_move_file" method="POST" class="float-right">
+                            <div class="form-row align-items-center">
+                                <div class="col">
+                                    <input type="hidden" name="source_key" value="{{ file }}">
+                                    <input type="text" class="form-control" placeholder="Destination Key" name="destination_key" required>
+                                </div>
+                                <div class="col">
+                                    <input type="hidden" name="bucket_name" value="{{ bucket_name }}">
+                                    <button type="submit" class="btn btn-primary">Copy/Move</button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
