@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S3 Bucket Operations</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">S3 Buckets</h1>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Create Bucket</h2>
+                <form action="/create_bucket" method="POST">
+                    <div class="form-group">
+                        <label for="bucket_name">Bucket Name:</label>
+                        <input type="text" class="form-control" id="bucket_name" name="bucket_name" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Delete Bucket</h2>
+                <form action="/delete_bucket" method="POST">
+                    <div class="form-group">
+                        <label for="bucket_name_delete">Bucket Name:</label>
+                        <input type="text" class="form-control" id="bucket_name_delete" name="bucket_name" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Existing Buckets</h2>
+                <ul class="list-group">
+                    {% for bucket in buckets %}
+                    <li class="list-group-item">{{ bucket }}
+                        <form action="/file_manager/{{ bucket }}" method="GET" class="float-right">
+                            <button type="submit" class="btn btn-primary">Manage</button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+
+
