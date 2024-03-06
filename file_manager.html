@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S3 File Manager</title>
+    <style>
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid #f00;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+    </style>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -23,6 +37,13 @@
                 </form>
             </div>
         </div>
+
+    {% if error_message %}
+    <div class="popup">
+        <p>{{ error_message }}</p>
+        <button onclick="window.location.href='/'">Close</button>
+    </div>
+    {% endif %}
 
         <div class="card mb-4">
             <div class="card-body">
@@ -52,13 +73,27 @@
             </div>
         </div>
 
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Delete File</h2>
+                <form action="/delete_file" method="POST">
+                    <div class="form-group">
+                        <label for="file_name_delete">File Name:</label>
+                        <input type="text" class="form-control" id="file_name_delete" name="file_name" required>
+                    </div>
+                    <input type="hidden" name="bucket_name" value="{{ bucket_name }}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-body">
                 <h2 class="card-title">Files/Folders in {{ bucket_name }}</h2>
                 <ul class="list-group">
                     {% for file in files %}
                     <li class="list-group-item">{{ file }}
-                        <form action="/copy_move_file" method="POST" class="float-right">
+                        <form action="/copy_move_Delete_file" method="POST" class="float-right">
                             <div class="form-row align-items-center">
                                 <div class="col">
                                     <input type="hidden" name="source_key" value="{{ file }}">
