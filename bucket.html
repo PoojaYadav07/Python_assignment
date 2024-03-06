@@ -4,11 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S3 Bucket Operations</title>
+    <style>
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+
+            border: 2px solid #f00;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+    </style>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">S3 Buckets</h1>
+
+    {% if error_message %}
+    <div class="popup">
+        <p>{{ error_message }}</p>
+        <button onclick="window.location.href='/'">Close</button>
+    </div>
+    {% endif %}
 
         <div class="card mb-4">
             <div class="card-body">
